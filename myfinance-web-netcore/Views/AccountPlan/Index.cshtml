@@ -1,0 +1,48 @@
+@model myfinance_web_netcore.Models.AccountPlanModel
+@{
+    ViewData["Title"] = "Plano de contas"; 
+}
+
+
+<h3>Plano de contas</h3>
+<hr>
+
+<button type="button" class="btn btn-block btn-primary" onclick="createAccountPlan()">Criar plano de conta</button>
+
+<table class="table table-bordered">
+    <tr>
+        <th>#</th>
+        <th>#</th>
+        <th>Id</th>
+        <th>Descrição</th>
+        <th>Tipo</th>
+    </tr>
+
+    @{
+        foreach (var accountPlan in (List<AccountPlanModel>)ViewBag.List)
+        {
+             <tr>
+                <td><button type="button" class="btn btn-block btn-warning" onclick="editAccountPlan(@accountPlan.Id.ToString())">Editar</button></td>
+                <td><button type="button" class="btn btn-block btn-danger" onclick="deleteAccountPlan(@accountPlan.Id.ToString())">Excluir</button></td>
+                <td>@accountPlan.Id</td>
+                <td>@accountPlan.Description</td>
+                <td>@accountPlan.Type</td>
+            </tr>
+        }
+    }
+   
+</table>
+
+<script>
+    function createAccountPlan() {
+        window.location.href = '../AccountPlan/CreateAccountPlan';
+    }
+
+    function editAccountPlan(id) {
+        window.location.href = '../AccountPlan/CreateAccountPlan/' + id;
+    }
+
+    function deleteAccountPlan(id) {
+        window.location.href = '../AccountPlan/DeleteAccountPlan/' + id;
+    }
+</script>

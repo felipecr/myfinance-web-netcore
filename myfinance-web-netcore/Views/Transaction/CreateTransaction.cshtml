@@ -1,0 +1,77 @@
+@using System.Globalization
+@model myfinance_web_netcore.Models.TransactionModel
+
+@{
+    ViewData["Title"] = "Registrar transação financeira";
+
+    int vId = 0;
+    string vDate = string.Empty;
+    string vValue = string.Empty;
+    string vType = string.Empty;
+    string vHistory = string.Empty;
+    int vAccountPlanId = 0;
+    
+    try {
+        vId = int.Parse(@ViewBag.Transaction.Id.ToString());
+        vDate = DateTime.Parse(@ViewBag.Transaction.Date.ToString()).ToString("yyyy-MM-dd");        
+        vType = @ViewBag.Transaction.Type.ToString();
+        vHistory = @ViewBag.Transaction.History.ToString();
+        vAccountPlanId = int.Parse(@ViewBag.Transaction.AccountPlanId.ToString());
+
+        CultureInfo cultureInfo = CultureInfo.InvariantCulture;
+        vValue = @ViewBag.Transaction.Value.ToString(cultureInfo);
+    }
+    catch {}
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <form asp-controller="Transaction" asp-action="CreateTransaction">
+        <input type="hidden" asp-for="Id"><br>
+
+        <div class="form-group">
+            <label>Data:</label>
+            <input type="date" class="form-control" asp-for="Date" value="@vDate">
+            <span asp-validation-for="Date" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+           <label>Tipo:</label><br>
+            <input type="text" class="form-control" asp-for="Type" value="@vType"><br>
+        </div>
+        
+       <div class="form-group">
+           <label>Valor:</label><br>
+            <input type="text" class="form-control" asp-for="Value" step="0.01" value="@vValue">
+            <span asp-validation-for="Value" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+           <label>Histórico:</label><br>
+            @Html.TextArea("History", vHistory, new { @class = "form-control" })
+            <span asp-validation-for="History" class="text-danger"></span>
+        </div>
+        
+        <div class="form-group">
+            <label>Plano de contas:</label>
+            <select asp-for="AccountPlanId" class="form-control">
+                @{
+                    foreach(AccountPlanModel accountPlan in (List<AccountPlanModel>)ViewBag.AccountPlans)
+                    {
+                        if (accountPlan.Id == vAccountPlanId)
+                        {
+                            <option selected value="@accountPlan.Id">@accountPlan.Description</option>
+                        }
+                        else
+                        {
+                            <option value="@accountPlan.Id">@accountPlan.Description</option>
+                        }
+                    }
+                }
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-block btn-success">Registrar</button>
+    </form>
+</div>

@@ -1,0 +1,53 @@
+@model myfinance_web_netcore.Models.TransactionModel
+@{
+    ViewData["Title"] = "Transações financeiras"; 
+}
+
+<h3>Transações financeiras</h3>
+<hr>
+
+<button type="button" class="btn btn-block btn-primary" onclick="createTransaction()">Criar transação</button>
+
+<table class="table table-bordered">
+    <tr>
+        <th>#</th>
+        <th>#</th>
+        <th>Id</th>
+        <th>Data</th>
+        <th>Valor</th>
+        <th>Tipo</th>
+        <th>Histórico</th>
+        <th>Plano de conta</th>
+    </tr>
+
+    @{
+        foreach (TransactionModel transaction in (List<TransactionModel>)ViewBag.List)
+        {
+             <tr>
+                <td><button type="button" class="btn btn-block btn-warning" onclick="editTransaction(@transaction.Id.ToString())">Editar</button></td>
+                <td><button type="button" class="btn btn-block btn-danger" onclick="deleteTransaction(@transaction.Id.ToString())">Excluir</button></td>
+                <td>@transaction.Id</td>
+                <td>@transaction.Date</td>
+                <td>@transaction.Value</td>
+                <td>@transaction.Type</td>
+                <td>@transaction.History</td>
+                <td>@transaction.AccountPlanId</td>
+            </tr>
+        }
+    }
+   
+</table>
+
+<script>
+    function createTransaction() {
+        window.location.href = '../Transaction/CreateTransaction';
+    }
+
+    function editTransaction(id) {
+        window.location.href = '../Transaction/CreateTransaction/' + id;
+    }
+
+    function deleteTransaction(id) {
+        window.location.href = '../Transaction/DeleteTransaction/' + id;
+    }
+</script>
