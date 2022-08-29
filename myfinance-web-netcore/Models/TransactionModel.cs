@@ -13,5 +13,7 @@ namespace myfinance_web_netcore.Models
         public string? History { get; set; }
 
         public int AccountPlanId { get; set; }
+
+        public string? AccountPlanDescription { get; set; }
     }
 }

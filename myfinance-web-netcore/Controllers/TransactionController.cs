@@ -21,6 +21,23 @@ namespace myfinance_web_netcore.Controllers
         }
 
         [HttpGet]
+        public IActionResult TransactionsReport()
+        {
+            TransactionsReportModel model = new TransactionsReportModel();
+            return View(model);
+        }
+
+         [HttpPost]
+        public IActionResult TransactionsReport(TransactionsReportModel model)
+        {
+            if (model.StartDate != null || model.EndDate != null) {
+                model.Transactions = new Transaction().filterTransactions(model.StartDate, model.EndDate);
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
         public IActionResult CreateTransaction(int? id)
         {
             if (id != null)

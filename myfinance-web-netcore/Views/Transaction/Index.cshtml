@@ -3,9 +3,10 @@
     ViewData["Title"] = "Transações financeiras"; 
 }
 
-<h3>Transações financeiras</h3>
+<h3>@ViewData["Title"]</h3>
 <hr>
 
+<button type="button" class="btn btn-block btn-primary" onclick="openTransactionsReport()">Relatório de transações</button>
 <button type="button" class="btn btn-block btn-primary" onclick="createTransaction()">Criar transação</button>
 
 <table class="table table-bordered">
@@ -39,6 +40,10 @@
 </table>
 
 <script>
+    function openTransactionsReport() {
+        window.location.href = '../Transaction/TransactionsReport';
+    }
+
     function createTransaction() {
         window.location.href = '../Transaction/CreateTransaction';
     }

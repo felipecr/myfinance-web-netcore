@@ -1,0 +1,62 @@
+@model TransactionsReportModel
+@{
+    ViewData["Title"] = "Relatório de transações por período";
+
+    string vStartDate = string.Empty;
+    string vEndDate = string.Empty;
+
+    if (Model.StartDate != null)
+    {
+        vStartDate = DateTime.Parse(Model.StartDate.ToString()).ToString("yyyy-MM-dd");   
+    }
+
+    if (Model.EndDate != null)
+    {
+        vEndDate = DateTime.Parse(Model.EndDate.ToString()).ToString("yyyy-MM-dd");
+    }
+}
+
+<h3>@ViewData["Title"]</h3>
+
+<hr>
+
+<form asp-controller="Transaction" asp-action="TransactionsReport">
+    <div class="form-group">
+        <label>Data inicial do período:</label>
+        <input type="date" class="form-control" asp-for="StartDate" value="@vStartDate">
+        <span asp-validation-for="StartDate" class="text-danger"></span>
+        <label>Data final do período:</label>
+        <input type="date" class="form-control" asp-for="EndDate" value="@vEndDate">
+        <span asp-validation-for="StartDate" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-block btn-success">Filtrar</button>
+</form>
+
+<hr>
+
+<table class="table table-bordered">
+    <tr>
+        <th>ID</th>
+        <th>Data</th>
+        <th>Tipo</th>
+        <th>Valor</th>
+        <th>Histórico</th>
+        <th>Plano de conta</th>
+    </tr>
+
+    @{
+        foreach (TransactionModel transaction in Model.Transactions)
+        {
+             <tr>
+                <td>@transaction.Id</td>
+                <td>@transaction.Date</td>
+                <td>@transaction.Type</td>
+                <td>@transaction.Value</td>
+                <td>@transaction.History</td>
+                <td>@transaction.AccountPlanDescription</td>
+            </tr>
+        }
+    }
+   
+</table>
