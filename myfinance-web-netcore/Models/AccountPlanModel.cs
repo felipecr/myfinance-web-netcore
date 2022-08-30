@@ -6,6 +6,8 @@ namespace myfinance_web_netcore.Models
 
         public string? Description { get; set; }
 
-        public string? Type { get; set; }
+        public int AccountPlanTypeId { get; set; }
+
+        public string AccountPlanTypeDescription { get; set; }
     }
 }

@@ -4,11 +4,11 @@
     ViewData["Title"] = "Criar plano de conta";
 
     string vDescription = string.Empty;
-    string vType = string.Empty;
+    int vAccountPlanTypeId = 0;
 
     try {
         vDescription = @ViewBag.AccountPlan.Description;
-        vType = @ViewBag.AccountPlan.Type;
+        vAccountPlanTypeId = @ViewBag.AccountPlan.AccountPlanTypeId;
     }
     catch {}
 }
@@ -23,7 +23,21 @@
         <input type="text" asp-for="Description" value="@vDescription"><br>
 
         <label>Tipo:</label><br>
-        <input type="text" asp-for="Type" value="@vType"><br>
+        <select asp-for="AccountPlanTypeId" class="form-control">
+            @{
+                foreach (AccountPlanTypeModel accountPlanType in (List<AccountPlanTypeModel>)ViewBag.AccountPlanTypes)
+                {
+                    if (accountPlanType.Id == vAccountPlanTypeId)
+                    {
+                        <option selected value="@accountPlanType.Id">@accountPlanType.Description</option>
+                    }
+                    else
+                    {
+                        <option value="@accountPlanType.Id">@accountPlanType.Description</option>
+                    }
+                }
+            }
+        </select>
 
         <button type="submit" class="btn btn-block btn-success">Registrar</button>
     </form>

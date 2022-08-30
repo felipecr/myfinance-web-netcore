@@ -7,15 +7,13 @@
     int vId = 0;
     string vDate = string.Empty;
     string vValue = string.Empty;
-    string vType = string.Empty;
-    string vHistory = string.Empty;
+    string VDescription = string.Empty;
     int vAccountPlanId = 0;
     
     try {
         vId = int.Parse(@ViewBag.Transaction.Id.ToString());
-        vDate = DateTime.Parse(@ViewBag.Transaction.Date.ToString()).ToString("yyyy-MM-dd");        
-        vType = @ViewBag.Transaction.Type.ToString();
-        vHistory = @ViewBag.Transaction.History.ToString();
+        vDate = DateTime.Parse(@ViewBag.Transaction.Date.ToString()).ToString("yyyy-MM-dd");
+        VDescription = @ViewBag.Transaction.Description.ToString();
         vAccountPlanId = int.Parse(@ViewBag.Transaction.AccountPlanId.ToString());
 
         CultureInfo cultureInfo = CultureInfo.InvariantCulture;
@@ -35,11 +33,6 @@
             <input type="date" class="form-control" asp-for="Date" value="@vDate">
             <span asp-validation-for="Date" class="text-danger"></span>
         </div>
-
-        <div class="form-group">
-           <label>Tipo:</label><br>
-            <input type="text" class="form-control" asp-for="Type" value="@vType"><br>
-        </div>
         
        <div class="form-group">
            <label>Valor:</label><br>
@@ -48,9 +41,9 @@
         </div>
 
         <div class="form-group">
-           <label>Histórico:</label><br>
-            @Html.TextArea("History", vHistory, new { @class = "form-control" })
-            <span asp-validation-for="History" class="text-danger"></span>
+           <label>Descrição:</label><br>
+            @Html.TextArea("Description", VDescription, new { @class = "form-control" })
+            <span asp-validation-for="Description" class="text-danger"></span>
         </div>
         
         <div class="form-group">

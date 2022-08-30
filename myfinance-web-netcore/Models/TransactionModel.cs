@@ -8,12 +8,12 @@ namespace myfinance_web_netcore.Models
 
         public decimal Value { get; set; }
 
-        public string? Type { get; set; }
-
-        public string? History { get; set; }
+        public string? Description { get; set; }
 
         public int AccountPlanId { get; set; }
 
         public string? AccountPlanDescription { get; set; }
+
+        public string? AccountPlanTypeDescription { get; set; }
     }
 }

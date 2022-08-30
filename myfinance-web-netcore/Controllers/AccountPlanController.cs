@@ -29,6 +29,7 @@ namespace myfinance_web_netcore.Controllers
                 ViewBag.AccountPlan = accountPlan;
             }
 
+            ViewBag.AccountPlanTypes = new AccountPlanType().getAccountPlanTypes();
             return View();
         }
 

@@ -17,7 +17,7 @@
         <th>Data</th>
         <th>Valor</th>
         <th>Tipo</th>
-        <th>Histórico</th>
+        <th>Descrição</th>
         <th>Plano de conta</th>
     </tr>
 
@@ -30,9 +30,9 @@
                 <td>@transaction.Id</td>
                 <td>@transaction.Date</td>
                 <td>@transaction.Value</td>
-                <td>@transaction.Type</td>
-                <td>@transaction.History</td>
-                <td>@transaction.AccountPlanId</td>
+                <td>@transaction.AccountPlanTypeDescription</td>
+                <td>@transaction.Description</td>
+                <td>@transaction.AccountPlanDescription</td>
             </tr>
         }
     }

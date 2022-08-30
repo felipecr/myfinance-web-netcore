@@ -12,9 +12,9 @@ namespace myfinance_web_netcore.Domain
             DAL dalInstance = DAL.GetInstance;
             dalInstance.Connect();
 
-            string sql = "INSERT INTO TRANSACTIONS(DATE, VALUE, TYPE, HISTORY, ACCOUNT_PLAN_ID) " + 
+            string sql = "INSERT INTO TRANSACTIONS(DATE, VALUE, DESCRIPTION, ACCOUNT_PLAN_ID) " + 
                 $"VALUES ('{form.Date.ToString("yyyy-MM-dd")}'," +
-                $"{form.Value}, '{form.Type}', '{form.History}', {form.AccountPlanId})";
+                $"{form.Value}, '{form.Description}', {form.AccountPlanId})";
 
             dalInstance.ExecuteCommand(sql);
             dalInstance.Disconnect();
@@ -26,7 +26,7 @@ namespace myfinance_web_netcore.Domain
             dalInstance.Connect();
 
             string sql = $"UPDATE TRANSACTIONS SET DATE = '{form.Date.ToString("yyyy-MM-dd")}'," +
-                $"VALUE = {form.Value}, TYPE = '{form.Type}', HISTORY = '{form.History}', " +
+                $"VALUE = {form.Value}, DESCRIPTION = '{form.Description}', " +
                 $"ACCOUNT_PLAN_ID = {form.AccountPlanId} WHERE ID = {form.Id}";
 
             dalInstance.ExecuteCommand(sql);
@@ -47,7 +47,7 @@ namespace myfinance_web_netcore.Domain
             DAL dalInstance = DAL.GetInstance;
             dalInstance.Connect();
 
-            string sql = $"SELECT ID, DATE, VALUE, TYPE, HISTORY, ACCOUNT_PLAN_ID FROM TRANSACTIONS WHERE ID = '{id}'";
+            string sql = $"SELECT ID, DATE, VALUE, DESCRIPTION, ACCOUNT_PLAN_ID FROM TRANSACTIONS WHERE ID = '{id}'";
             DataTable dataTable = dalInstance.Select(sql);
 
             TransactionModel transaction = new TransactionModel()
@@ -55,8 +55,7 @@ namespace myfinance_web_netcore.Domain
                 Id = int.Parse(dataTable.Rows[0]["ID"].ToString()),
                 Date = DateTime.Parse(dataTable.Rows[0]["DATE"].ToString()),
                 Value = decimal.Parse(dataTable.Rows[0]["VALUE"].ToString()),
-                Type = dataTable.Rows[0]["TYPE"].ToString(),
-                History = dataTable.Rows[0]["HISTORY"].ToString(),
+                Description = dataTable.Rows[0]["DESCRIPTION"].ToString(),
                 AccountPlanId = int.Parse(dataTable.Rows[0]["ACCOUNT_PLAN_ID"].ToString())
             };
 
@@ -71,8 +70,13 @@ namespace myfinance_web_netcore.Domain
             DAL dalInstance = DAL.GetInstance;
             dalInstance.Connect();
 
-            string sql = "SELECT ID, DATE, VALUE, TYPE, HISTORY, ACCOUNT_PLAN_ID FROM TRANSACTIONS";
-            DataTable dataTable = dalInstance.Select(sql);
+            StringBuilder sql = new StringBuilder("SELECT t.ID, t.DATE, t.VALUE, t.DESCRIPTION,");
+            sql.Append(" ap.DESCRIPTION ACCOUNT_PLAN_DESCRIPTION, apt.DESCRIPTION ACCOUNT_PLAN_TYPE_DESCRIPTION");
+            sql.Append(" FROM TRANSACTIONS t");
+            sql.Append(" INNER JOIN ACCOUNT_PLANS ap on t.ACCOUNT_PLAN_ID = ap.ID");
+            sql.Append(" INNER JOIN ACCOUNT_PLAN_TYPES apt on ap.ACCOUNT_PLAN_TYPE_ID = apt.ID");
+
+            DataTable dataTable = dalInstance.Select(sql.ToString());
 
             for (int i = 0; i < dataTable.Rows.Count; i++)
             {
@@ -81,9 +85,9 @@ namespace myfinance_web_netcore.Domain
                     Id = int.Parse(dataTable.Rows[i]["ID"].ToString()),
                     Date = DateTime.Parse(dataTable.Rows[i]["DATE"].ToString()),
                     Value = decimal.Parse(dataTable.Rows[i]["VALUE"].ToString()),
-                    Type = dataTable.Rows[i]["TYPE"].ToString(),
-                    History = dataTable.Rows[i]["HISTORY"].ToString(),
-                    AccountPlanId = int.Parse(dataTable.Rows[i]["ACCOUNT_PLAN_ID"].ToString())
+                    Description = dataTable.Rows[i]["DESCRIPTION"].ToString(),
+                    AccountPlanDescription = dataTable.Rows[i]["ACCOUNT_PLAN_DESCRIPTION"].ToString(),
+                    AccountPlanTypeDescription = dataTable.Rows[i]["ACCOUNT_PLAN_TYPE_DESCRIPTION"].ToString()
                 };
 
                 transactions.Add(transaction);
@@ -100,9 +104,11 @@ namespace myfinance_web_netcore.Domain
             DAL dalInstance = DAL.GetInstance;
             dalInstance.Connect();
 
-            StringBuilder sql = new StringBuilder("SELECT tr.ID, tr.DATE, tr.VALUE, tr.TYPE, tr.HISTORY, ap.DESCRIPTION");
+            StringBuilder sql = new StringBuilder("SELECT tr.ID, tr.DATE, tr.VALUE, tr.DESCRIPTION,");
+            sql.Append(" ap.DESCRIPTION ACCOUNT_PLAN_DESCRIPTION, apt.DESCRIPTION ACCOUNT_PLAN_TYPE_DESCRIPTION");
             sql.Append(" FROM TRANSACTIONS tr");
             sql.Append(" INNER JOIN ACCOUNT_PLANS ap on tr.ACCOUNT_PLAN_ID = ap.ID");
+             sql.Append(" INNER JOIN ACCOUNT_PLAN_TYPES apt on ap.ACCOUNT_PLAN_TYPE_ID = apt.ID");
 
             if (startDate != null)
             {
@@ -130,9 +136,9 @@ namespace myfinance_web_netcore.Domain
                     Id = int.Parse(dataTable.Rows[i]["ID"].ToString()),
                     Date = DateTime.Parse(dataTable.Rows[i]["DATE"].ToString()),
                     Value = decimal.Parse(dataTable.Rows[i]["VALUE"].ToString()),
-                    Type = dataTable.Rows[i]["TYPE"].ToString(),
-                    History = dataTable.Rows[i]["HISTORY"].ToString(),
-                    AccountPlanDescription = dataTable.Rows[i]["DESCRIPTION"].ToString()
+                    Description = dataTable.Rows[i]["DESCRIPTION"].ToString(),
+                    AccountPlanDescription = dataTable.Rows[i]["ACCOUNT_PLAN_DESCRIPTION"].ToString(),
+                    AccountPlanTypeDescription = dataTable.Rows[i]["ACCOUNT_PLAN_TYPE_DESCRIPTION"].ToString()
                 };
 
                 transactions.Add(transaction);
