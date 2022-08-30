@@ -46,7 +46,7 @@ namespace myfinance_web_netcore.Controllers
                 ViewBag.Transaction = transaction;
             }
   
-            ViewBag.AccountPlans = new AccountPlanModel().getAccountPlans();
+            ViewBag.AccountPlans = new AccountPlan().getAccountPlans();
             return View();
         }
 

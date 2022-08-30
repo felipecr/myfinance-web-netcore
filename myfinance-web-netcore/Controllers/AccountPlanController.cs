@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using myfinance_web_netcore.Domain;
 using myfinance_web_netcore.Models;
 
 namespace myfinance_web_netcore.Controllers
@@ -14,7 +15,7 @@ namespace myfinance_web_netcore.Controllers
 
         public IActionResult Index()
         {
-            List<AccountPlanModel> accountPlans = new AccountPlanModel().getAccountPlans();
+            List<AccountPlanModel> accountPlans = new AccountPlan().getAccountPlans();
             ViewBag.List = accountPlans;
             return View();
         }
@@ -24,7 +25,7 @@ namespace myfinance_web_netcore.Controllers
         {
             if (id != null)
             {
-                AccountPlanModel accountPlan = new AccountPlanModel().GetAccountPlanById(id);
+                AccountPlanModel accountPlan = new AccountPlan().GetAccountPlanById(id);
                 ViewBag.AccountPlan = accountPlan;
             }
 
@@ -34,13 +35,15 @@ namespace myfinance_web_netcore.Controllers
         [HttpPost]
         public IActionResult CreateAccountPlan(AccountPlanModel form)
         {
+            AccountPlan accountPlan = new AccountPlan();
+
             if (form.Id == null)
             {
-                form.Insert();
+                accountPlan.Insert(form);
             }
             else
             {
-                form.Update(form.Id);
+                accountPlan.Update(form);
             }
 
             return RedirectToAction("Index");
@@ -49,7 +52,7 @@ namespace myfinance_web_netcore.Controllers
         [HttpGet]
         public IActionResult DeleteAccountPlan(int id)
         {
-            new AccountPlanModel().Delete(id);
+            new AccountPlan().Delete(id);
             return RedirectToAction("Index");
         }
     }
