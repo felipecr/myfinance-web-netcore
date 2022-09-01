@@ -1,4 +1,5 @@
 using System.Data;
+using System.Globalization;
 using System.Text;
 using myfinance_web_netcore.Infra;
 using myfinance_web_netcore.Models;
@@ -12,9 +13,11 @@ namespace myfinance_web_netcore.Domain
             DAL dalInstance = DAL.GetInstance;
             dalInstance.Connect();
 
+            CultureInfo cultureInfo = CultureInfo.InvariantCulture;
+
             string sql = "INSERT INTO TRANSACTIONS(DATE, VALUE, DESCRIPTION, ACCOUNT_PLAN_ID) " + 
                 $"VALUES ('{form.Date.ToString("yyyy-MM-dd")}'," +
-                $"{form.Value}, '{form.Description}', {form.AccountPlanId})";
+                $"{form.Value.ToString(cultureInfo)}, '{form.Description}', {form.AccountPlanId})";
 
             dalInstance.ExecuteCommand(sql);
             dalInstance.Disconnect();
@@ -25,8 +28,10 @@ namespace myfinance_web_netcore.Domain
             DAL dalInstance = DAL.GetInstance;
             dalInstance.Connect();
 
+            CultureInfo cultureInfo = CultureInfo.InvariantCulture;
+
             string sql = $"UPDATE TRANSACTIONS SET DATE = '{form.Date.ToString("yyyy-MM-dd")}'," +
-                $"VALUE = {form.Value}, DESCRIPTION = '{form.Description}', " +
+                $"VALUE = {form.Value.ToString(cultureInfo)}, DESCRIPTION = '{form.Description}', " +
                 $"ACCOUNT_PLAN_ID = {form.AccountPlanId} WHERE ID = {form.Id}";
 
             dalInstance.ExecuteCommand(sql);
@@ -108,7 +113,7 @@ namespace myfinance_web_netcore.Domain
             sql.Append(" ap.DESCRIPTION ACCOUNT_PLAN_DESCRIPTION, apt.DESCRIPTION ACCOUNT_PLAN_TYPE_DESCRIPTION");
             sql.Append(" FROM TRANSACTIONS tr");
             sql.Append(" INNER JOIN ACCOUNT_PLANS ap on tr.ACCOUNT_PLAN_ID = ap.ID");
-             sql.Append(" INNER JOIN ACCOUNT_PLAN_TYPES apt on ap.ACCOUNT_PLAN_TYPE_ID = apt.ID");
+            sql.Append(" INNER JOIN ACCOUNT_PLAN_TYPES apt on ap.ACCOUNT_PLAN_TYPE_ID = apt.ID");
 
             if (startDate != null)
             {

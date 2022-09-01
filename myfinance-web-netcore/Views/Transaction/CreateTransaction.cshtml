@@ -16,7 +16,7 @@
         VDescription = @ViewBag.Transaction.Description.ToString();
         vAccountPlanId = int.Parse(@ViewBag.Transaction.AccountPlanId.ToString());
 
-        CultureInfo cultureInfo = CultureInfo.InvariantCulture;
+        CultureInfo cultureInfo = CultureInfo.CurrentCulture;
         vValue = @ViewBag.Transaction.Value.ToString(cultureInfo);
     }
     catch {}
