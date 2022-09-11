@@ -55,6 +55,14 @@ namespace myfinance_web_netcore.Controllers
         {
             Transaction transaction = new Transaction();
 
+            if (!String.IsNullOrEmpty(form.MaskedValue)) {
+                String value = form.MaskedValue.Replace("R$", string.Empty);
+                value.Replace(" ", string.Empty);
+                value.Replace(".", string.Empty);
+
+                form.Value = decimal.Parse(value);
+            }
+
              if (form.Id == null)
             {
                 transaction.Insert(form);

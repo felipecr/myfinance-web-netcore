@@ -8,6 +8,8 @@ namespace myfinance_web_netcore.Models
 
         public decimal Value { get; set; }
 
+        public string MaskedValue { get; set; }
+
         public string? Description { get; set; }
 
         public int AccountPlanId { get; set; }
