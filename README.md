@@ -10,7 +10,7 @@ A imagem abaixo representa a modelagem lógica do banco de dados do sistema.
 
 Na modelagem do banco de dados há três tabelas: account_plans, transactions e account_plan_types.
 
-- **account_plan_type**: tabela que armazena os tipos permitidos para um plano de conta: crédito ou débito.
+- **account_plan_types**: tabela que armazena os tipos permitidos para um plano de conta: crédito ou débito.
 - **account_plans**: tabela que armazena os planos de conta, que têm um tipo e uma descrição
 - **transactions**: tabela que armazena as transações, que envolvem algum plano de conta e têm data, valor e descrição.
 
@@ -62,4 +62,4 @@ A seguir são apresentadas algumas telas do projeto em execução no navegador M
 
 ## Nota
 
-Este projeto foi desenvolvido para a disciplina Práticas de Implementação e Evolução de Software do curso de Engenharia de Software da PUC Minas. Muitas melhorias e atualizações ainda podem ser adicionadas ao projeto.
+Este projeto foi desenvolvido durante o curso da disciplina Práticas de Implementação e Evolução de Software do curso de Engenharia de Software da PUC Minas. Muitas melhorias e atualizações ainda podem ser adicionadas ao projeto.
